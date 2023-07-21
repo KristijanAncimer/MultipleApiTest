@@ -13,6 +13,14 @@
       "serviceActions": {
         "tenantapi": "StartDebugging"
       }
+    },
+    "Everything": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "adminapi": "StartDebugging",
+        "tenantapi": "StartDebugging"
+      }
     }
   }
 }
