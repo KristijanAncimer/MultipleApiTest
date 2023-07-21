@@ -4,14 +4,18 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "adminapi": "StartDebugging"
+        "adminapi": "StartDebugging",
+        "mamongo": "DoNotStart",
+        "tenantapi": "DoNotStart"
       }
     },
     "Tenant Only": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "tenantapi": "StartDebugging"
+        "tenantapi": "StartDebugging",
+        "adminapi": "DoNotStart",
+        "mamongo": "DoNotStart"
       }
     },
     "Everything": {
@@ -19,7 +23,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "adminapi": "StartDebugging",
-        "tenantapi": "StartDebugging"
+        "tenantapi": "StartDebugging",
+        "mamongo": "StartWithoutDebugging"
       }
     }
   }

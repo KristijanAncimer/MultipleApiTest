@@ -12,3 +12,10 @@ services:
     build:
       context: .
       dockerfile: TenantApi/Dockerfile
+
+  mamongo:
+   image: mongo:latest
+
+volumes:
+  mavolume:
+

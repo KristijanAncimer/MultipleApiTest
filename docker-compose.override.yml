@@ -12,3 +12,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "9002:80"
+
+  mamongo:
+    ports:
+      - "40000:27017"
+
