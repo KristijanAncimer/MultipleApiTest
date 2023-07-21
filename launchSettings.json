@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "Admin Only": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "adminapi": "StartDebugging"
+      }
+    },
+    "Tenant Only": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "tenantapi": "StartDebugging"
+      }
+    }
+  }
+}

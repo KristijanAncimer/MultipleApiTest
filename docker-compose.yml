@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  adminapi:
+    image: ${DOCKER_REGISTRY-}adminapi
+    build:
+      context: .
+      dockerfile: AdminApi/Dockerfile
+
+  tenantapi:
+    image: ${DOCKER_REGISTRY-}tenantapi
+    build:
+      context: .
+      dockerfile: TenantApi/Dockerfile
