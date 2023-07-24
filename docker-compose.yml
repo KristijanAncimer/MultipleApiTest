@@ -6,16 +6,28 @@ services:
     build:
       context: .
       dockerfile: AdminApi/Dockerfile
+    external_links:
+      - mamongo
+      - tenantapi
+        
 
   tenantapi:
     image: ${DOCKER_REGISTRY-}tenantapi
     build:
       context: .
       dockerfile: TenantApi/Dockerfile
+    external_links:
+      - mamongo
+      - adminapi
 
   mamongo:
-   image: mongo:latest
-
+    image: mongo:latest
+    
 volumes:
   mavolume:
 
+networks:
+  multiapinetwork:
+    external: true
+    
+    

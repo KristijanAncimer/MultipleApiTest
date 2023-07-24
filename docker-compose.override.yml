@@ -4,14 +4,16 @@ services:
   adminapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:81
     ports:
-      - "9001:80"
+      - "9001:81"
 
   tenantapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:82
     ports:
-      - "9002:80"
+      - "9002:82"
 
   mamongo:
     ports:
