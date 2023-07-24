@@ -6,8 +6,7 @@ namespace TenantApi.Models
     public class User
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        Guid Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }

@@ -1,4 +1,6 @@
+using Amazon.Runtime;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 using TenantApi.DataAccess;
 using TenantApi.Models;
 
@@ -16,9 +18,30 @@ namespace TenantApi.Controllers
 
         [HttpGet]
         [Route("[controller]/Index")]
-        public string Get()
+        public async Task<TenantTestResponse> Get()
         {
-            return "I am Tenant API";
+            var result = new TenantTestResponse
+            {
+                ApiName = "Tenant Api",
+            };
+
+            using (var client = new HttpClient())
+            {
+
+                client.BaseAddress = new Uri("http://adminapi");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                var response = await client.GetAsync("Admin");
+
+                response.EnsureSuccessStatusCode();
+
+                var responseText = await response.Content.ReadAsStringAsync();
+
+                result.OtherApiResponse = responseText;
+            }
+
+            return result;
         }
 
         [HttpGet]
@@ -41,5 +64,12 @@ namespace TenantApi.Controllers
         {
             _repository.DeleteUser(user);
         }
+    }
+
+
+    public class TenantTestResponse
+    {
+        public string ApiName { get; set; }
+        public string OtherApiResponse { get; set; }
     }
 }
