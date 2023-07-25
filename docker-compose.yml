@@ -22,6 +22,8 @@ services:
 
   mamongo:
     image: mongo:latest
+    volumes:
+     - mavolume:/data/db
     
 volumes:
   mavolume:

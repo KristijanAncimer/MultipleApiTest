@@ -1,12 +1,16 @@
-﻿using TenantApi.Models;
+﻿using TenantApi.Commands;
+using TenantApi.Models;
 
 namespace TenantApi.DataAccess
 {
     public interface IRepository
     {
-        Task CreateUser(User user);
+        Task<User> CreateUserAsync(CreateUserCmd cmd);
+
         Task<List<User>> GetAllUsers();
 
-        public void DeleteUser(User user);
+        void DeleteUser(User user);
+
+        Task<User> GetById(Guid id);
     }
 }

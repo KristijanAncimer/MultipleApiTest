@@ -51,12 +51,19 @@ namespace TenantApi.Controllers
             return _repository.GetAllUsers();
         }
 
-        [HttpPost]
-        [Route("[controller]/Save")]
-        public void Post(User user)
+        [HttpGet]
+        [Route("[controller]/Sample{id}")]
+        public Task<User> GetById(Guid id) 
         {
-            _repository.CreateUser(user);
+            return _repository.GetById(id);
         }
+
+        //[HttpPost]
+        //[Route("[controller]/Save")]
+        //public void Post(User user)
+        //{
+        //    _repository.CreateUser(user);
+        //}
 
         [HttpPost]
         [Route("[controller]/Delete")]

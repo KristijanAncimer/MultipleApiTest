@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using System.ComponentModel.DataAnnotations;
+using TenantApi.Commands;
 using TenantApi.Models;
 
 namespace TenantApi.DataAccess
@@ -22,16 +23,42 @@ namespace TenantApi.DataAccess
             return results.ToList();
         }
 
-        public Task CreateUser(User user)
+        public async Task<User> CreateUserAsync(CreateUserCmd cmd)
         {
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = cmd.Name,
+            };
+
             var usersCollection = ConnectToMongo<User>(UserCollection);
-            return usersCollection.InsertOneAsync(user);
+            await usersCollection.InsertOneAsync(user);
+
+            return user;
         }
 
         public void DeleteUser(User user)
         {
             var usersCollection = ConnectToMongo<User>(UserCollection);
-            usersCollection.DeleteOneAsync(p => p.Name == user.Name);
+            usersCollection.DeleteOneAsync(p => p.Id == user.Id);
         }
+
+        public async Task<User> GetById(Guid id)
+        {
+            var usersCollection = ConnectToMongo<User>(UserCollection);
+            var korisnik = usersCollection.Find(p => p.Id == id).FirstOrDefault();
+            return korisnik;
+
+            //var usersCollection = ConnectToMongo<User>(UserCollection);
+            //var results = await usersCollection.FindAsync(_ =>_.Id==id);
+            //return results.ToList();
+        }
+
+        //public Task UpdateUser(User user)
+        //{
+        //    var usersCollection = ConnectToMongo<User>(UserCollection);
+        //    return usersCollection.FindOneAndUpdate();
+
+        //}
     }
 }
