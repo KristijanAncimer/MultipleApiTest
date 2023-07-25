@@ -1,13 +1,11 @@
-﻿using MongoDB.Bson;
+﻿using Common.Models;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace TenantApi.Models
 {
-    public class User
+    public class User : AbstractEntity
     {
-        [BsonId]
-        public Guid Id { get; set; }
-        public string Name { get; set; }
 
     }
 }

@@ -1,11 +1,11 @@
-﻿namespace Common
+﻿using Common.Models;
+
+namespace Common
 {
-    public interface IGenericRepository <T> where T : class
+    public interface IGenericRepository
     {
-        IEnumerable<T>GetAll();
-        T GetById(object id);
-        void Insert(T obj);
-        void Update(T obj);
-        void Delete(object id);
+        Task<List<T>> GetAll<T>() where T : AbstractEntity;
+        void SaveOrUpdateAsync<T>(T instanceOfT) where T : AbstractEntity;
+        void DeleteAsync<T>(T instanceOfT) where T : AbstractEntity;
     }
 }

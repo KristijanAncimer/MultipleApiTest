@@ -1,12 +1,12 @@
-﻿using System.Reflection.Metadata;
+﻿using Common.Models;
+using MongoDB.Bson.Serialization.Attributes;
+using System.Reflection.Metadata;
 
 namespace AdminApi.Models
 {
     
-    public class Tenant: Document
-    {
-        //public Guid Id { get; set; }
-        public string Name { get; set; }
+    public class Tenant: AbstractEntity
+    {       
         public int maxUsersNumber { get; set; }
     }
 }
