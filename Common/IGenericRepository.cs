@@ -4,8 +4,10 @@ namespace Common
 {
     public interface IGenericRepository
     {
-        Task<List<T>> GetAll<T>() where T : AbstractEntity;
-        void SaveOrUpdateAsync<T>(T instanceOfT) where T : AbstractEntity;
-        void DeleteAsync<T>(T instanceOfT) where T : AbstractEntity;
-    }
+        List<T> GetAll<T>() where T : AbstractEntity;
+
+        Task<bool> SaveOrUpdateAsync<T>(T entity) where T : AbstractEntity;
+		Task<bool> DeleteAsync<T>(T entity) where T : AbstractEntity;
+		Task<bool> DeleteAsync<T>(Guid entityId) where T : AbstractEntity;
+	}
 }

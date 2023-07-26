@@ -21,7 +21,7 @@ namespace AdminApi.DataAccess
             {
                 Id = Guid.NewGuid(),
                 Name = cmd.Name,
-                maxUsersNumber = cmd.maxUsersNumber
+                MaxUsersNumber = cmd.maxUsersNumber
             };
 
             var client = ConnectToMongo<Tenant>(TenantCollection);

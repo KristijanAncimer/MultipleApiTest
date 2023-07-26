@@ -2,25 +2,25 @@
 
 namespace Common
 {
-	public class GenericRepository:IGenericRepository
-    {
-        public Task<List<T>> GetAll<T>()
-        {
-            //dbset
-            List<T>results = await dbSet.FindAsync(_ => true);
-            return results.ToList();
-        }
+	//public class GenericRepository:IGenericRepository
+ //   {
+ //       public Task<List<T>> GetAll<T>()
+ //       {
+ //           //dbset
+ //           List<T>results = await dbSet.FindAsync(_ => true);
+ //           return results.ToList();
+ //       }
 
-        public void SaveOrUpdateAsync<T>(T instanceOfT)
-        {
-            //dbset
+ //       public void SaveOrUpdateAsync<T>(T instanceOfT)
+ //       {
+ //           //dbset
 
-        }
-        public void DeleteAsync(T instanceOfT)
-        {
+ //       }
+ //       public void DeleteAsync(T instanceOfT)
+ //       {
 
-        }
-    }
+ //       }
+ //   }
 
 
 
