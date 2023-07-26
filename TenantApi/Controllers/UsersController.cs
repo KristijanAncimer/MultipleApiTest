@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Common;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TenantApi.Commands;
 using TenantApi.DataAccess;
 using TenantApi.Models;
@@ -9,13 +11,16 @@ namespace TenantApi.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
+        IConfiguration _configuration;
         private readonly IRepository _repository;
+        private readonly IGenericRepository _genericRepository;
 
-
-        public UsersController()
+        public UsersController(IConfiguration configuration,IGenericRepository genericRepository)
         {
+            _configuration = configuration;
             _repository = new Repository();
-        }
+            _genericRepository=genericRepository;
+    }
 
         [HttpGet]
         [Route("[controller]/All")]

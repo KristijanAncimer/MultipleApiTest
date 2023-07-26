@@ -70,9 +70,7 @@ namespace Common
 
 		private string GetCollectionName<T>() where T : AbstractEntity
 		{
-			// TODO - how to get collection name from generic parameter T?
-
-			throw new NotImplementedException();
+			return typeof(T).Name;
 		}
 	}
 }

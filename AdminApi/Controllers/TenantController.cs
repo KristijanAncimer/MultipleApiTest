@@ -1,6 +1,8 @@
 ﻿using AdminApi.Commands;
 using AdminApi.DataAccess;
 using AdminApi.Models;
+using Common;
+using Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApi.Controllers
@@ -9,25 +11,31 @@ namespace AdminApi.Controllers
     [Route("[controller]")]
     public class TenantController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
         private readonly IRepository _repository;
-        public TenantController()
+        private readonly IGenericRepository _genericRepository;
+        public TenantController(IConfiguration configuration, IGenericRepository genericRepository)
         {
-            _repository = new Repository();
+            //_repository = new Repository();
+            _genericRepository = genericRepository;
+            _configuration= configuration;
         }
 
 
         [HttpPut]
         [Route("[controller]")]
-        public Task<Tenant> CreateTenant(CreateTenantCmd cmd)
+        public async Task<bool> CreateTenant(Tenant tenant)
         {
-            return _repository.CreateTenantAsync(cmd);
+            //return _repository.CreateTenantAsync(cmd);
+            return await _genericRepository.SaveOrUpdateAsync(tenant);
         }
 
         [HttpGet]
         [Route("[controller]/all")]
-        public Task<List<Tenant>> GetAll()
+        public void GetAll()
         {
-            return _repository.GetAllAsync();
+            //return _repository.GetAllAsync();
+            //return _genericRepository.GetAll();
         }
     }
 }
