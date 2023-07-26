@@ -72,7 +72,10 @@ namespace Common
 		{
 			// TODO - how to get collection name from generic parameter T?
 
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+
+			return typeof(T).Name;
+
 		}
 	}
 }
