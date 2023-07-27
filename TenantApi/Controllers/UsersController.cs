@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using TenantApi.Commands;
-using TenantApi.DataAccess;
 using TenantApi.Models;
 
 namespace TenantApi.Controllers
@@ -11,36 +10,72 @@ namespace TenantApi.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        IConfiguration _configuration;
-        private readonly IRepository _repository;
         private readonly IGenericRepository _genericRepository;
 
-        public UsersController(IConfiguration configuration,IGenericRepository genericRepository)
+        public UsersController(IConfiguration configuration, IGenericRepository genericRepository)
         {
-            _configuration = configuration;
-            _repository = new Repository();
-            _genericRepository=genericRepository;
-    }
-
-        [HttpGet]
-        [Route("[controller]/All")]
-        public Task<List<User>> GetAll()
-        {
-            return _repository.GetAllUsers();
+            _genericRepository = genericRepository;
+        
         }
 
-        [HttpGet]
-        [Route("[controller]/GetById/{id}")]
-        public Task<User> GetById(Guid id)
+        [HttpPut]
+        [Route("Create")]
+        public async Task<bool> CreateTenant(CreateUserCmd cmd)
         {
-            return _repository.GetById(id); 
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = cmd.Name,
+            };
+            return await _genericRepository.SaveOrUpdateAsync(user);
         }
 
         [HttpPost]
-        [Route("[controller]")]
-        public Task<User> CreateUser(CreateUserCmd cmd)
+        [Route("Update")]
+        public async Task<bool> UpdateTenant(User user)
         {
-            return _repository.CreateUserAsync(cmd);
+            if (GetUserById(user.Id).Name == "not found")
+            {
+                return false;
+            }
+            else
+            {
+                return await _genericRepository.SaveOrUpdateAsync(user);
+            }
+
+        }
+
+        [HttpGet]
+        [Route("GetById")]
+        public User GetUserById(Guid id)
+        {
+            var tenant = GetAllUsers().AsQueryable().Where(x => x.Id == id).FirstOrDefault();
+            if (tenant == null)
+            {
+                return new User { Id = new Guid(), Name = "not found" };
+            }
+            return tenant;
+        }
+
+        [HttpGet]
+        [Route("GetAll")]
+        public List<User> GetAllUsers()
+        {
+            return _genericRepository.GetAll<User>();
+        }
+
+        [HttpDelete]
+        [Route("DeleteByObject")]
+        public async Task<bool> DeleteUserByObjectAsync(User user)
+        {
+            return await _genericRepository.DeleteAsync(user);
+        }
+
+        [HttpDelete]
+        [Route("DeleteById")]
+        public async Task<bool> DeleteUserByIdAsync(Guid entityId)
+        {
+            return await _genericRepository.DeleteAsync<User>(entityId);
         }
     }
 }

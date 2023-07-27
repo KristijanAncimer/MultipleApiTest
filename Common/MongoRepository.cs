@@ -70,7 +70,9 @@ namespace Common
 
 		private string GetCollectionName<T>() where T : AbstractEntity
 		{
-			return typeof(T).Name;
+			// not implemented
+
+			throw new NotImplementedException();
 		}
 	}
 }

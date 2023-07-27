@@ -1,8 +1,10 @@
 using Common;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Driver.Core.Configuration;
+using System.Xml.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<IGenericRepository, MongoRepository>();
+builder.Services.AddSingleton<IGenericRepository>(new MongoRepository("mongodb://mamongo:27017", "AdminDatabase"));
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

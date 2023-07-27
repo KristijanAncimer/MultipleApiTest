@@ -1,7 +1,6 @@
 using Amazon.Runtime;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
-using TenantApi.DataAccess;
 using TenantApi.Models;
 
 namespace TenantApi.Controllers
@@ -10,10 +9,9 @@ namespace TenantApi.Controllers
     [Route("[controller]")]
     public class TenantController : ControllerBase
     {
-        private readonly IRepository _repository;
         public TenantController()
         {
-                _repository = new Repository();
+
         }
 
         [HttpGet]
@@ -44,39 +42,13 @@ namespace TenantApi.Controllers
             return result;
         }
 
-        [HttpGet]
-        [Route("[controller]/Sample")]
-        public Task<List<User>> GetAll()
+
+
+
+        public class TenantTestResponse
         {
-            return _repository.GetAllUsers();
+            public string ApiName { get; set; }
+            public string OtherApiResponse { get; set; }
         }
-
-        [HttpGet]
-        [Route("[controller]/Sample{id}")]
-        public Task<User> GetById(Guid id) 
-        {
-            return _repository.GetById(id);
-        }
-
-        //[HttpPost]
-        //[Route("[controller]/Save")]
-        //public void Post(User user)
-        //{
-        //    _repository.CreateUser(user);
-        //}
-
-        [HttpPost]
-        [Route("[controller]/Delete")]
-        public void Delete(User user)
-        {
-            _repository.DeleteUser(user);
-        }
-    }
-
-
-    public class TenantTestResponse
-    {
-        public string ApiName { get; set; }
-        public string OtherApiResponse { get; set; }
     }
 }
