@@ -69,10 +69,8 @@ namespace Common
 		}
 
 		private string GetCollectionName<T>() where T : AbstractEntity
-		{
-			// not implemented
-
-			throw new NotImplementedException();
+		{			
+			return typeof(T).Name;
 		}
 	}
 }
