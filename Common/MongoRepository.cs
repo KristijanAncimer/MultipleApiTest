@@ -39,9 +39,9 @@ namespace Common
 			return DeleteAsync<T>(entity.Id);
 		}
 
-		public List<T> GetAll<T>() where T : AbstractEntity
+		public IQueryable<T> GetAll<T>() where T : AbstractEntity
 		{
-			return GetCollection<T>().AsQueryable().ToList();
+			return GetCollection<T>().AsQueryable();
 		}
 
 		public async Task<bool> SaveOrUpdateAsync<T>(T entity) where T : AbstractEntity

@@ -58,7 +58,7 @@ namespace AdminApi.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public List<Tenant> GetAllTenants()
+        public IEnumerable<Tenant> GetAllTenants()
         {
             return _genericRepository.GetAll<Tenant>();
         }

@@ -49,7 +49,7 @@ namespace TenantApi.Controllers
         [Route("GetById")]
         public User GetUserById(Guid id)
         {
-            var tenant = GetAllUsers().AsQueryable().Where(x => x.Id == id).FirstOrDefault();
+            var tenant = GetAllUsers().Where(x => x.Id == id).FirstOrDefault();
             if (tenant == null)
             {
                 return new User { Id = new Guid(), Name = "not found" };
@@ -59,7 +59,7 @@ namespace TenantApi.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public List<User> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
             return _genericRepository.GetAll<User>();
         }
