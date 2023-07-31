@@ -1,6 +1,7 @@
 ﻿using AdminApi.Commands;
-using AdminApi.DataAccess;
 using AdminApi.Models;
+using Common;
+using Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApi.Controllers
@@ -9,25 +10,69 @@ namespace AdminApi.Controllers
     [Route("[controller]")]
     public class TenantController : ControllerBase
     {
-        private readonly IRepository _repository;
-        public TenantController()
+        private readonly IGenericRepository _genericRepository;
+        public TenantController(IGenericRepository genericRepository)
         {
-            _repository = new Repository();
+            _genericRepository = genericRepository;
         }
 
 
         [HttpPut]
-        [Route("[controller]")]
-        public Task<Tenant> CreateTenant(CreateTenantCmd cmd)
+        [Route("Create")]
+        public async Task<bool> CreateTenant(CreateTenantCmd cmd)
         {
-            return _repository.CreateTenantAsync(cmd);
+            var tenant = new Tenant
+            {
+                Id = Guid.NewGuid(),
+                Name = cmd.Name,
+                MaxUsersNumber = cmd.maxUsersNumber
+            };
+            return await _genericRepository.SaveOrUpdateAsync(tenant);
+        }
+
+        [HttpPost]
+        [Route("Update")]
+        public async Task<bool> UpdateTenant(Tenant tenant)
+        {
+            if (GetTenantById(tenant.Id).Name== "not found")
+            {
+                return false;
+            }
+            else
+            {
+                return await _genericRepository.SaveOrUpdateAsync(tenant);
+            }
+            
+        }
+        [HttpGet]
+        [Route("GetById")]
+        public Tenant GetTenantById(Guid id)
+        {
+            var tenant =GetAllTenants().AsQueryable().Where(x => x.Id == id).FirstOrDefault();
+            if ( tenant==null)
+            {
+                return new Tenant { Name = "not found" };
+            }
+            return tenant;
         }
 
         [HttpGet]
-        [Route("[controller]/all")]
-        public Task<List<Tenant>> GetAll()
+        [Route("GetAll")]
+        public List<Tenant> GetAllTenants()
         {
-            return _repository.GetAllAsync();
+            return _genericRepository.GetAll<Tenant>();
+        }
+        [HttpDelete]
+        [Route("DeleteByObject")]
+        public async Task<bool> DeleteTenantByObjectAsync(Tenant tenant)
+        {
+            return await _genericRepository.DeleteAsync(tenant);
+        }
+        [HttpDelete]
+        [Route("DeleteById")]
+        public async Task<bool> DeleteTenantByIdAsync(Guid entityId)
+        {
+            return await _genericRepository.DeleteAsync<Tenant>(entityId);
         }
     }
 }

@@ -1,7 +1,7 @@
 using Common;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddSingleton<IGenericRepository>(new MongoRepository("mongodb://mamongo:27017", "TenantDatabase"));
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
