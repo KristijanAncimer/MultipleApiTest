@@ -4,12 +4,16 @@ services:
   adminapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}
+      - MONGO_DATABASE=${MONGO_ADMIN_DATABASE}
     ports:
       - "9001:80"
 
   tenantapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}
+      - MONGO_DATABASE=${MONGO_TENANT_DATABASE}
     ports:
       - "9002:80"
 
