@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace Common
 {
-	public class MongoRepository : IGenericRepository
+	public class MongoRepository : IRepository
 	{
 		private readonly MongoClient _client;
 		private readonly IMongoDatabase _database;

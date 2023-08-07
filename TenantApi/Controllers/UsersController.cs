@@ -10,12 +10,11 @@ namespace TenantApi.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IGenericRepository _genericRepository;
+        private readonly IRepository _genericRepository;
 
-        public UsersController(IConfiguration configuration, IGenericRepository genericRepository)
+        public UsersController(IConfiguration configuration, IRepository genericRepository)
         {
-            _genericRepository = genericRepository;
-        
+            _genericRepository = genericRepository;        
         }
 
         [HttpPut]
@@ -42,7 +41,6 @@ namespace TenantApi.Controllers
             {
                 return await _genericRepository.SaveOrUpdateAsync(user);
             }
-
         }
 
         [HttpGet]

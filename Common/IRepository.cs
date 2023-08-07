@@ -2,7 +2,7 @@
 
 namespace Common
 {
-    public interface IGenericRepository
+    public interface IRepository
     {
         IQueryable<T> GetAll<T>() where T : AbstractEntity;
 

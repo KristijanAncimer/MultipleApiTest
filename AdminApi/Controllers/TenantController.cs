@@ -10,14 +10,14 @@ namespace AdminApi.Controllers
     [Route("[controller]")]
     public class TenantController : ControllerBase
     {
-        private readonly IGenericRepository _genericRepository;
-        public TenantController(IGenericRepository genericRepository)
+        private readonly IRepository _genericRepository;
+        public TenantController(IRepository genericRepository)
         {
             _genericRepository = genericRepository;
         }
 
 
-        [HttpPut]
+        [HttpPost]
         [Route("Create")]
         public async Task<bool> CreateTenant(CreateTenantCmd cmd)
         {
@@ -30,43 +30,36 @@ namespace AdminApi.Controllers
             return await _genericRepository.SaveOrUpdateAsync(tenant);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("Update")]
-        public async Task<bool> UpdateTenant(Tenant tenant)
+        public async Task<ActionResult<bool>> UpdateTenant(Tenant tenant)
         {
-            if (GetTenantById(tenant.Id).Name== "not found")
+            var foundTenant =_genericRepository.GetAll<Tenant>().AsQueryable().Where(x=>x.Id==tenant.Id).FirstOrDefault();
+
+            if (foundTenant == null)
             {
-                return false;
+                return NotFound();
             }
-            else
-            {
-                return await _genericRepository.SaveOrUpdateAsync(tenant);
-            }
-            
-        }
-        [HttpGet]
-        [Route("GetById")]
-        public Tenant GetTenantById(Guid id)
-        {
-            var tenant =GetAllTenants().AsQueryable().Where(x => x.Id == id).FirstOrDefault();
-            if ( tenant==null)
-            {
-                return new Tenant { Name = "not found" };
-            }
-            return tenant;
+
+            return await _genericRepository.SaveOrUpdateAsync(tenant);
         }
 
         [HttpGet]
         [Route("GetAll")]
-        public IEnumerable<Tenant> GetAllTenants()
+        public ActionResult<IEnumerable<Tenant>> GetAllTenants(int page, int pageSize)
         {
-            return _genericRepository.GetAll<Tenant>();
-        }
-        [HttpDelete]
-        [Route("DeleteByObject")]
-        public async Task<bool> DeleteTenantByObjectAsync(Tenant tenant)
-        {
-            return await _genericRepository.DeleteAsync(tenant);
+            if (page <= 0 || pageSize <= 0) 
+            { 
+                return BadRequest(); 
+            }
+            else
+            {
+                return _genericRepository.GetAll<Tenant>()
+                    .OrderBy(x => x.Id)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+            }
         }
         [HttpDelete]
         [Route("DeleteById")]

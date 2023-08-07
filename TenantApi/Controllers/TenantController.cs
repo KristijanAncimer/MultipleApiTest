@@ -42,9 +42,6 @@ namespace TenantApi.Controllers
             return result;
         }
 
-
-
-
         public class TenantTestResponse
         {
             public string ApiName { get; set; }

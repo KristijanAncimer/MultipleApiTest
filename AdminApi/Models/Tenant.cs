@@ -7,6 +7,6 @@ namespace AdminApi.Models
     
     public class Tenant: AbstractEntity
     {       
-        public int MaxUsersNumber { get; set; }
+       public int MaxUsersNumber { get; set; }
     }
 }

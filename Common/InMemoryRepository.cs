@@ -11,10 +11,8 @@ using ZstdSharp.Unsafe;
 
 namespace Common
 {
-    public class InMemoryRepository : IGenericRepository
+    public class InMemoryRepository : IRepository
     {
-
-        //private List<object> _items;
 
         private Dictionary <string, Dictionary<Guid, object>> _repo=new Dictionary<string, Dictionary<Guid, object>>();
         private Dictionary <Guid, object> _subrepo=new Dictionary<Guid, object>();

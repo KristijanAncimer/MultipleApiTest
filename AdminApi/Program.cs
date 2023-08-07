@@ -16,7 +16,7 @@ if (string.IsNullOrEmpty(mongoDatabase))
 }
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<IGenericRepository>(new MongoRepository(mongoConnectionString, mongoDatabase));
+builder.Services.AddSingleton<IRepository>(new MongoRepository(mongoConnectionString, mongoDatabase));
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
