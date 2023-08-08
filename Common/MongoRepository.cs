@@ -1,5 +1,4 @@
 ﻿using Common.Models;
-
 using MongoDB.Driver;
 
 namespace Common
