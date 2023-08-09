@@ -1,6 +1,5 @@
 ﻿using Common;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using TenantApi.Commands;
 using TenantApi.Models;
 

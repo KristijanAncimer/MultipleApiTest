@@ -1,7 +1,9 @@
 ﻿using AdminApi.Commands;
 using AdminApi.Models;
+using AdminApi.Queries;
 using Common;
 using Common.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApi.Controllers
@@ -11,9 +13,11 @@ namespace AdminApi.Controllers
     public class TenantController : ControllerBase
     {
         private readonly IRepository _genericRepository;
-        public TenantController(IRepository genericRepository)
+        private readonly IMediator _mediator;
+        public TenantController(IRepository genericRepository, IMediator mediator)
         {
             _genericRepository = genericRepository;
+            _mediator = mediator;
         }
 
 
@@ -21,13 +25,14 @@ namespace AdminApi.Controllers
         [Route("Create")]
         public async Task<bool> CreateTenant(CreateTenantCmd cmd)
         {
-            var tenant = new Tenant
-            {
-                Id = Guid.NewGuid(),
-                Name = cmd.Name,
-                MaxUsersNumber = cmd.maxUsersNumber
-            };
-            return await _genericRepository.SaveOrUpdateAsync(tenant);
+            //var tenant = new Tenant
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Name = cmd.Name,
+            //    MaxUsersNumber = cmd.maxUsersNumber
+            //};
+            //return await _genericRepository.SaveOrUpdateAsync(tenant);
+            return await _mediator.Send(new AddTenantCommand(cmd));
         }
 
         [HttpPut]
@@ -46,20 +51,21 @@ namespace AdminApi.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public ActionResult<IEnumerable<Tenant>> GetAllTenants(int page, int pageSize)
+        public  async Task<IEnumerable<Tenant>> GetAllTenants(int page, int pageNumber)
         {
-            if (page <= 0 || pageSize <= 0) 
-            { 
-                return BadRequest(); 
-            }
-            else
-            {
-                return _genericRepository.GetAll<Tenant>()
-                    .OrderBy(x => x.Id)
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-            }
+            //if (page <= 0 || pageSize <= 0) 
+            //{ 
+            //    return BadRequest(); 
+            //}
+            //else
+            //{
+            //    return _genericRepository.GetAll<Tenant>()
+            //        .OrderBy(x => x.Id)
+            //        .Skip((page - 1) * pageSize)
+            //        .Take(pageSize)
+            //        .ToList();
+            //}
+            return await _mediator.Send(new GetTenantsQuery(page, pageNumber));
         }
         [HttpDelete]
         [Route("DeleteById")]

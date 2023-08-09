@@ -1,8 +1,5 @@
-using Amazon.Runtime;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
-using TenantApi.Models;
-
 namespace TenantApi.Controllers
 {
     [ApiController]
