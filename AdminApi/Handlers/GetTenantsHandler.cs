@@ -9,16 +9,15 @@ namespace AdminApi.Handlers
     public class GetTenantsHandler : IRequestHandler<GetTenantsQuery, IEnumerable<Tenant>>
     {
         private readonly IRepository _genericRepository;
-        public GetTenantsHandler(IRepository genericRespository)
+        public GetTenantsHandler(IRepository genericRespository) // Typo
         {
             _genericRepository = genericRespository;
         }
         public Task<IEnumerable<Tenant>> Handle(GetTenantsQuery request, CancellationToken cancellationToken)
         {
-            
             if (request.page <= 0 || request.pageSize <= 0)
             {
-                throw new NotImplementedException();
+                throw new NotImplementedException(); // Not correct exception type to throw
             }
             else
             {
@@ -29,7 +28,6 @@ namespace AdminApi.Handlers
                     .ToList());
             }
             //return Task.FromResult<IEnumerable<Tenant>>(_genericRepository.GetAll<Tenant>());
-            
         }
     }
 }

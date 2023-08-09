@@ -23,7 +23,7 @@ namespace AdminApi.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public async Task<bool> CreateTenant(CreateTenantCmd cmd)
+        public async Task<Tenant> CreateTenant(AddTenantCommand cmd)
         {
             //var tenant = new Tenant
             //{
@@ -32,7 +32,7 @@ namespace AdminApi.Controllers
             //    MaxUsersNumber = cmd.maxUsersNumber
             //};
             //return await _genericRepository.SaveOrUpdateAsync(tenant);
-            return await _mediator.Send(new AddTenantCommand(cmd));
+            return await _mediator.Send(cmd);
         }
 
         [HttpPut]
@@ -53,9 +53,9 @@ namespace AdminApi.Controllers
         [Route("GetAll")]
         public  async Task<IEnumerable<Tenant>> GetAllTenants(int page, int pageNumber)
         {
-            //if (page <= 0 || pageSize <= 0) 
-            //{ 
-            //    return BadRequest(); 
+            //if (page <= 0 || pageSize <= 0)
+            //{
+            //    return BadRequest();
             //}
             //else
             //{

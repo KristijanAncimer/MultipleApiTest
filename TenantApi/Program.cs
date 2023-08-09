@@ -1,5 +1,7 @@
 using Common;
 using MediatR;
+
+using System.Reflection;
 using System.Reflection.Metadata;
 
 string mongoConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING");
@@ -17,8 +19,7 @@ if (string.IsNullOrEmpty(mongoDatabase))
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IRepository>(new MongoRepository(mongoConnectionString, mongoDatabase));
 // Add services to the container.
-builder.Services.AddMediatR(typeof(Program));
-//builder.Services.AddMediatR(typeof(AssemblyReference).Assembly);
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
