@@ -3,21 +3,22 @@ using AdminApi.Queries;
 using Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Specialized;
 
 namespace AdminApi.Handlers
 {
-    public class GetTenantsHandler : IRequestHandler<GetTenantsQuery, IEnumerable<Tenant>>
+    public class TenantQueryHandler : IRequestHandler<GetTenantsQuery, IEnumerable<Tenant>>
     {
         private readonly IRepository _genericRepository;
-        public GetTenantsHandler(IRepository genericRespository) // Typo
+        public TenantQueryHandler(IRepository genericRepository)
         {
-            _genericRepository = genericRespository;
+            _genericRepository = genericRepository;
         }
         public Task<IEnumerable<Tenant>> Handle(GetTenantsQuery request, CancellationToken cancellationToken)
         {
             if (request.page <= 0 || request.pageSize <= 0)
             {
-                throw new NotImplementedException(); // Not correct exception type to throw
+                throw new ArgumentException();
             }
             else
             {
@@ -27,7 +28,6 @@ namespace AdminApi.Handlers
                     .Take(request.pageSize)
                     .ToList());
             }
-            //return Task.FromResult<IEnumerable<Tenant>>(_genericRepository.GetAll<Tenant>());
         }
     }
 }
