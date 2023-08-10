@@ -1,78 +1,52 @@
-﻿using AdminApi.Commands;
+// <copyright file="TenantController.cs" company="ROKO Labs, LLC">
+//
+// Copyright (C) ROKO Labs, LLC - All Rights Reserved.
+// Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential.
+//
+// </copyright>
+
+namespace AdminApi.Controllers;
+
+using AdminApi.Commands;
 using AdminApi.Models;
-using Common;
-using Common.Models;
+using AdminApi.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-
-namespace AdminApi.Controllers
+[ApiController]
+[Route("[controller]")]
+public class TenantController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class TenantController : ControllerBase
+    private readonly IMediator _mediator;
+    public TenantController(IMediator mediator)
     {
-        private readonly IGenericRepository _genericRepository;
-        public TenantController(IGenericRepository genericRepository)
-        {
-            _genericRepository = genericRepository;
-        }
+        _mediator = mediator;
+    }
 
+    [HttpPost]
+    [Route("Create")]
+    public async Task<Tenant> CreateTenant(AddTenantCommand cmd)
+    {
+        return await _mediator.Send(cmd);
+    }
 
-        [HttpPut]
-        [Route("Create")]
-        public async Task<bool> CreateTenant(CreateTenantCmd cmd)
-        {
-            var tenant = new Tenant
-            {
-                Id = Guid.NewGuid(),
-                Name = cmd.Name,
-                MaxUsersNumber = cmd.maxUsersNumber
-            };
-            return await _genericRepository.SaveOrUpdateAsync(tenant);
-        }
+    [HttpPut]
+    [Route("Update")]
+    public async Task<Tenant> UpdateTenant(UpdateTenantCommand cmd)
+    {
+        return await _mediator.Send(cmd);
+    }
 
-        [HttpPost]
-        [Route("Update")]
-        public async Task<bool> UpdateTenant(Tenant tenant)
-        {
-            if (GetTenantById(tenant.Id).Name== "not found")
-            {
-                return false;
-            }
-            else
-            {
-                return await _genericRepository.SaveOrUpdateAsync(tenant);
-            }
-            
-        }
-        [HttpGet]
-        [Route("GetById")]
-        public Tenant GetTenantById(Guid id)
-        {
-            var tenant =GetAllTenants().AsQueryable().Where(x => x.Id == id).FirstOrDefault();
-            if ( tenant==null)
-            {
-                return new Tenant { Name = "not found" };
-            }
-            return tenant;
-        }
+    [HttpGet]
+    [Route("GetAll")]
+    public async Task<IEnumerable<Tenant>> GetAllTenants(int page, int pageSize)
+    {
+        return await _mediator.Send(new GetTenantsQuery(page, pageSize));
+    }
 
-        [HttpGet]
-        [Route("GetAll")]
-        public IEnumerable<Tenant> GetAllTenants()
-        {
-            return _genericRepository.GetAll<Tenant>();
-        }
-        [HttpDelete]
-        [Route("DeleteByObject")]
-        public async Task<bool> DeleteTenantByObjectAsync(Tenant tenant)
-        {
-            return await _genericRepository.DeleteAsync(tenant);
-        }
-        [HttpDelete]
-        [Route("DeleteById")]
-        public async Task<bool> DeleteTenantByIdAsync(Guid entityId)
-        {
-            return await _genericRepository.DeleteAsync<Tenant>(entityId);
-        }
+    [HttpDelete]
+    [Route("DeleteById")]
+    public async Task<bool> DeleteTenantByIdAsync(DeleteTenantCommand cmd)
+    {
+        return await _mediator.Send(cmd);
     }
 }

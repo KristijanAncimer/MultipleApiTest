@@ -1,4 +1,4 @@
-// <copyright file="CreateTenantCmd.cs" company="ROKO Labs, LLC">
+// <copyright file="DeleteTenantCommand.cs" company="ROKO Labs, LLC">
 //
 // Copyright (C) ROKO Labs, LLC - All Rights Reserved.
 // Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential.
@@ -6,8 +6,8 @@
 // </copyright>
 
 namespace AdminApi.Commands;
-public class CreateTenantCmd
+using MediatR;
+public record DeleteTenantCommand : IRequest<bool>
 {
-    public string? Name { get; set; }
-    public int MaxUsersNumber { get; set; }
+    public Guid Id { get; set; }
 }

@@ -9,7 +9,7 @@ services:
     external_links:
       - mamongo
       - tenantapi
-        
+
 
   tenantapi:
     image: ${DOCKER_REGISTRY-}tenantapi
@@ -24,12 +24,10 @@ services:
     image: mongo:latest
     volumes:
      - mavolume:/data/db
-    
+
 volumes:
   mavolume:
 
 networks:
   multiapinetwork:
     external: true
-    
-    
