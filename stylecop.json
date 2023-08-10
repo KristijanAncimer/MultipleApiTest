@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "ROKO Labs, LLC",
+      "copyrightText": "Copyright (C) {companyName} - All Rights Reserved.\r\nUnauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential.",
+      "xmlHeader": true,
+      "fileNamingConvention": "metadata",
+      "documentInterfaces": false,
+      "documentExposedElements": false,
+      "documentInternalElements": false
+    }
+  }
+}

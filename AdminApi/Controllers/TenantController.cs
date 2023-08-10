@@ -1,4 +1,4 @@
-﻿using AdminApi.Commands;
+using AdminApi.Commands;
 using AdminApi.Models;
 using AdminApi.Queries;
 using Common;
