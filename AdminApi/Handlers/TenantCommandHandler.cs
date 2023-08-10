@@ -29,7 +29,11 @@ public class TenantCommandHandler : IRequestHandler<AddTenantCommand, Tenant>,
             MaxUsersNumber = request.MaxUsersNumber
         };
         var saved = await _genericRepository.SaveOrUpdateAsync(tenant);
-        if (!saved) { throw new InvalidOperationException(); }
+        if (!saved)
+        {
+            throw new InvalidOperationException();
+        }
+
         return tenant;
     }
 

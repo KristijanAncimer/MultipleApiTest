@@ -21,7 +21,7 @@ public class TenantQueryHandler : IRequestHandler<GetTenantsQuery, IEnumerable<T
 
     public Task<IEnumerable<Tenant>> Handle(GetTenantsQuery request, CancellationToken cancellationToken)
     {
-        if (request.page <= 0 || request.pageSize <= 0)
+        if (request.Page <= 0 || request.PageSize <= 0)
         {
             throw new ArgumentException();
         }
@@ -29,8 +29,8 @@ public class TenantQueryHandler : IRequestHandler<GetTenantsQuery, IEnumerable<T
         {
             return Task.FromResult<IEnumerable<Tenant>>(_genericRepository.GetAll<Tenant>()
             .OrderBy(x => x.Id)
-                .Skip((request.page - 1) * request.pageSize)
-                .Take(request.pageSize)
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
                 .ToList());
         }
     }
