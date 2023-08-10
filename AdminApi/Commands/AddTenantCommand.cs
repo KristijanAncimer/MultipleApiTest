@@ -1,12 +1,16 @@
-﻿using AdminApi.Models;
+// <copyright file="AddTenantCommand.cs" company="ROKO Labs, LLC">
+//
+// Copyright (C) ROKO Labs, LLC - All Rights Reserved.
+// Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential.
+//
+// </copyright>
 
+namespace AdminApi.Commands;
+
+using AdminApi.Models;
 using MediatR;
-
-namespace AdminApi.Commands
+public record AddTenantCommand : IRequest<Tenant>
 {
-    public record AddTenantCommand : IRequest<Tenant>
-    {
-		public string Name { get; set; } = string.Empty;
-		public int maxUsersNumber { get; set; }
-	}
+    public string Name { get; set; } = string.Empty;
+    public int MaxUsersNumber { get; set; }
 }

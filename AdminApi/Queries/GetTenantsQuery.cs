@@ -1,8 +1,12 @@
-﻿using AdminApi.Models;
-using Amazon.Runtime.Internal;
+// <copyright file="GetTenantsQuery.cs" company="ROKO Labs, LLC">
+//
+// Copyright (C) ROKO Labs, LLC - All Rights Reserved.
+// Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential.
+//
+// </copyright>
+
+namespace AdminApi.Queries;
+using AdminApi.Models;
 using MediatR;
 
-namespace AdminApi.Queries
-{
-    public record GetTenantsQuery(int page, int pageSize):IRequest<IEnumerable<Tenant>>;
-}
+public record GetTenantsQuery(int Page, int PageSize) : IRequest<IEnumerable<Tenant>>;
