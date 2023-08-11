@@ -12,5 +12,4 @@ public abstract class AbstractEntity
 {
     [BsonId]
     public Guid Id { get; set; }
-    public string? Name { get; set; }
 }

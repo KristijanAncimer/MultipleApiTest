@@ -6,7 +6,10 @@
 // </copyright>
 
 using System.Reflection;
+using AdminApi.Models;
+using AdminApi.Validators;
 using Common;
+using FluentValidation;
 
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 string mongoConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING");
@@ -29,6 +32,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IRepository>(new MongoRepository(mongoConnectionString, mongoDatabase));
 
 // Add services to the container.
+builder.Services.AddScoped<IValidator<Tenant>, TenantValidator>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
 // builder.Services.AddMediatR(typeof(AssemblyReference).Assembly);

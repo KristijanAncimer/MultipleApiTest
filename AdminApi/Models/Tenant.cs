@@ -9,5 +9,6 @@ namespace AdminApi.Models;
 using Common.Models;
 public class Tenant : AbstractEntity
 {
-   public int MaxUsersNumber { get; set; }
+    public string? Name { get; set; }
+    public int MaxUsersNumber { get; set; }
 }

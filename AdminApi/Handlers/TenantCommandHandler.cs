@@ -8,8 +8,10 @@
 namespace AdminApi.Handlers;
 using AdminApi.Commands;
 using AdminApi.Models;
+using AdminApi.Validators;
 using Common;
 using MediatR;
+
 public class TenantCommandHandler : IRequestHandler<AddTenantCommand, Tenant>,
     IRequestHandler<UpdateTenantCommand, Tenant>,
     IRequestHandler<DeleteTenantCommand, bool>
@@ -28,6 +30,7 @@ public class TenantCommandHandler : IRequestHandler<AddTenantCommand, Tenant>,
             Name = request.Name,
             MaxUsersNumber = request.MaxUsersNumber
         };
+
         var saved = await _genericRepository.SaveOrUpdateAsync(tenant);
         if (!saved)
         {
@@ -44,7 +47,6 @@ public class TenantCommandHandler : IRequestHandler<AddTenantCommand, Tenant>,
         foundTenant.MaxUsersNumber = request.MaxUsersNumber;
 
         var saved = await _genericRepository.SaveOrUpdateAsync(foundTenant);
-
         if (!saved)
         {
             throw new InvalidOperationException();

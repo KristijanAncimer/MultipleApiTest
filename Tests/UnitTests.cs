@@ -55,11 +55,13 @@ public class UnitTests
 
     public class EntityTest1 : AbstractEntity
     {
+        public string? Name { get; set; }
         public string? TestString { get; set; }
     }
 
     public class EntityTest2 : AbstractEntity
     {
+        public string? Name { get; set; }
         public int TestInteger { get; set; }
     }
 }
