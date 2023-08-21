@@ -5,8 +5,11 @@
 //
 // </copyright>
 
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using Common;
+using TenantApi.HttpClients;
 
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 string mongoConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING");
@@ -27,6 +30,13 @@ if (string.IsNullOrEmpty(mongoDatabase))
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IRepository>(new MongoRepository(mongoConnectionString, mongoDatabase));
+
+// builder.Services.AddHttpClient("ADMIN_API_CLIENT", httpClient =>
+// {
+//     httpClient.BaseAddress = new Uri("http://adminapi");
+//     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+// });
+builder.Services.AddSingleton<ITenantService>(new TenantService(Environment.GetEnvironmentVariable("ADMIN_API_URL")));
 
 // Add services to the container.
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));

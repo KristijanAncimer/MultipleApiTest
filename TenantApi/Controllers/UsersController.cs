@@ -6,34 +6,40 @@
 // </copyright>
 
 namespace TenantApi.Controllers;
+
+using AdminApi.Commands;
 using Common;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TenantApi.Commands;
 using TenantApi.Models;
+
 [ApiController]
 [Route("[controller]")]
 public class UsersController : ControllerBase
 {
     private readonly IRepository _genericRepository;
+    private readonly IMediator _mediator;
 
-    public UsersController(IConfiguration configuration, IRepository genericRepository)
+    public UsersController(IRepository genericRepository, IMediator mediator)
     {
         _genericRepository = genericRepository;
-    }
-
-    [HttpPut]
-    [Route("Create")]
-    public async Task<bool> CreateTenant(CreateUserCmd cmd)
-    {
-        var user = new User
-        {
-            Id = Guid.NewGuid(),
-            Name = cmd.Name,
-        };
-        return await _genericRepository.SaveOrUpdateAsync(user);
+        _mediator = mediator;
     }
 
     [HttpPost]
+    [Route("Create")]
+    public async Task<ActionResult<User>> CreateTenant(AddUserCommand cmd)
+    {
+        var user = new User()
+        {
+            Name = cmd.Name,
+            TenantId = cmd.TenantId
+        };
+
+        return await _mediator.Send(cmd);
+    }
+
+    [HttpPut]
     [Route("Update")]
     public async Task<bool> UpdateTenant(User user)
     {

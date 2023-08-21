@@ -8,7 +8,6 @@
 // Ignore Spelling: Validator
 namespace AdminApi.Validators;
 
-using AdminApi.Commands;
 using AdminApi.Models;
 using Common;
 using FluentValidation;

@@ -6,8 +6,13 @@
 // </copyright>
 
 namespace Tests;
+
+using AdminApi.Models;
+using AdminApi.Queries;
 using Common;
 using Common.Models;
+using TenantApi.Models;
+using Tenant = AdminApi.Models.Tenant;
 
 public class UnitTests
 {
@@ -20,7 +25,17 @@ public class UnitTests
     [Fact]
     public void SaveOrUpdates_Succeeds()
     {
-        // kreirati 1 tenanta i usera
+        var tenant = new Tenant() { Id = Guid.NewGuid(), Name = "Batman", MaxUsersNumber = 3 };
+        var user = new User() { Id = Guid.NewGuid(), Name = "Alfred", TenantId = tenant.Id };
+
+        _repository.SaveOrUpdateAsync(user);
+        _repository.SaveOrUpdateAsync(tenant);
+
+        var tenants = _repository.GetAll<Tenant>();
+        var users = _repository.GetAll<User>();
+
+        Assert.Contains(tenant, tenants);
+        Assert.Contains(user, users);
     }
 
     [Fact]
@@ -50,6 +65,22 @@ public class UnitTests
         foreach (var entity in entities2)
         {
             await _repository.SaveOrUpdateAsync(entity);
+        }
+
+        var entity1 = _repository.GetAll<EntityTest1>();
+        var entity2 = _repository.GetAll<EntityTest2>();
+
+        Assert.Equal(entities1.Count(), entity1.Count());
+        Assert.Equal(entities2.Count(), entity2.Count());
+
+        foreach (var entity in entities1)
+        {
+            Assert.Contains(entity, entities1);
+        }
+
+        foreach (var entity in entities2)
+        {
+            Assert.Contains(entity, entities2);
         }
     }
 

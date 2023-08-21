@@ -14,6 +14,7 @@ using AdminApi.Validators;
 using Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+
 [ApiController]
 [Route("[controller]")]
 public class TenantController : ControllerBase
@@ -70,6 +71,20 @@ public class TenantController : ControllerBase
     public async Task<IEnumerable<Tenant>> GetAllTenants(int page, int pageSize)
     {
         return await _mediator.Send(new GetTenantsQuery(page, pageSize));
+    }
+
+    [HttpGet]
+    [Route("GetById/{id}")]
+    public Tenant GetById(Guid id)
+    {
+        return _repository.GetAll<Tenant>().Single(x => x.Id == id);
+    }
+
+    [HttpGet]
+    [Route("GetAllNoPagination")]
+    public IEnumerable<Tenant> GetAll()
+    {
+        return _repository.GetAll<Tenant>();
     }
 
     [HttpDelete]

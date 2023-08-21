@@ -25,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdminApi\AdminApi.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\TenantApi\TenantApi.csproj" />
   </ItemGroup>
 
 </Project>
